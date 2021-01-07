@@ -1,14 +1,6 @@
 <?php
-$dbn = 'mysql:dbname=gsacf_d29_07;charset=utf8;port=3306;host=localhost';
-$user = 'root';
-$pwd = '';
-
-try {
-    $pdo = new PDO($dbn, $user, $pwd);
-} catch (PDOException $e) {
-    echo json_encode(["db error" => "{$e->getMessage()}"]);
-    exit();
-}
+include('function.php');
+$pdo = connect_to_db();
 $sql = 'SELECT * FROM kadai_table';
 $stmt = $pdo->prepare($sql);
 $status = $stmt->execute();
@@ -48,6 +40,8 @@ if ($status == false) {
 
                     <div><?php echo $record['id'] ?> 名前：<?php echo $record['name'] ?> <?php echo $record['created_at'] ?></div>
                     <div> <?php echo $record['content'] ?></div>
+                    <a href='edit.php?id={$record["id"]}'>edit</a>
+                    <a href='delete.php?id={$record["id"]}'>delete</a>
                     <div>------------------------------------------</div>
                 <?php endforeach; ?>
             </section>

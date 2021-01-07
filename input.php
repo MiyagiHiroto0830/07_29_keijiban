@@ -1,42 +1,19 @@
 <?php
-$dbn = 'mysql:dbname=gsacf_d29_07;charset=utf8;port=3306;host=localhost';
-$user = 'root';
-$pwd = '';
+include('function.php');
+$pdo = connect_to_db();
 
-try {
-    $pdo = new PDO($dbn, $user, $pwd);
-} catch (PDOException $e) {
-    echo json_encode(["db error" => "{$e->getMessage()}"]);
-    exit();
-}
-$dbn2 = 'mysql:dbname=gsacf_d29_07;charset=utf8;port=3306;host=localhost';
-$user2 = 'root';
-$pwd2 = '';
-
-try {
-    $pdo2 = new PDO($dbn2, $user2, $pwd2);
-} catch (PDOException $e) {
-    echo json_encode(["db error" => "{$e->getMessage()}"]);
-    exit();
-}
 $sql = 'SELECT * FROM kadai_table order by created_at DESC limit 5';
-$sql2 = 'SELECT * FROM kadai2_table order by created_at DESC limit 5';
+
 $stmt = $pdo->prepare($sql);
-$stmt2 = $pdo2->prepare($sql2);
+
 $status = $stmt->execute();
-$status2 = $stmt2->execute();
+
 
 if ($status == false) {
     $error = $stmt->errorInfo();
     exit('sqlError:' . $error[2]);
 } else {
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-};
-if ($status2 == false) {
-    $error2 = $stmt2->errorInfo();
-    exit('sqlError:' . $error2[2]);
-} else {
-    $result2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 };
 
 

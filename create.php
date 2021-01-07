@@ -9,15 +9,8 @@ $name = $_POST['name'];
 $content = $_POST['contents'];
 
 // DB接続
-$dbn = 'mysql:dbname=gsacf_d29_07;charset=utf8;port=3306;host=localhost';
-$user = 'root';
-$pwd = '';
-try {
-    $pdo = new PDO($dbn, $user, $pwd);
-} catch (PDOException $e) {
-    echo json_encode(["db error" => "{$e->getMessage()}"]);
-    exit();
-}
+include('function.php');
+$pdo = connect_to_db();
 // // SQL作成&実行
 $sql = 'INSERT INTO
 kadai_table(id, name, content, created_at) VALUES(NULL, :name, :content, sysdate())';
